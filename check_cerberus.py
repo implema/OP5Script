@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 __author__ = 'Anton Delitsch <anton.delitsch@implema.se>'
-__version__= 0.1
+__version__= 0.2
 
 from optparse import OptionParser, OptionGroup
 import logging as log
@@ -52,7 +52,16 @@ def main():
 
         gtfo(0, 'OK: Everything OK')
 
+    if args.function == 'ServerStarted':
+        function = 'ServerInformationRequest'
+        response = http_call(args.server, args.username, args.password, function, args.function_argument)
+        started = response['SOAP-ENV:Body'][0]['ns1:ServerInformationResponse'][0]['ns1:result'][0]['ns2:isStarted'][0]
+        hostname = response['SOAP-ENV:Body'][0]['ns1:ServerInformationResponse'][0]['ns1:result'][0]['ns2:hostname'][0]
+        if started != "true":
+            gtfo(2, 'CRIT: Server not started')
 
+
+        gtfo(0, 'OK: Server started at %s' % hostname)
 
     ## Uncomment to test logging levels against verbosity settings
     # log.debug('debug message')
