@@ -44,10 +44,10 @@ def main():
             gtfo(2, 'CRIT: Found %s vulnerability' % vulnerabilityStatus)
 
 
-        if response['SOAP-ENV:Body'][0]['ns1:ServerSummaryStatusResponse'][0]['ns1:result'][0]['ns2:ftpStatus'][0] != "Secure":
+        if response['SOAP-ENV:Body'][0]['ns1:ServerSummaryStatusResponse'][0]['ns1:result'][0]['ns2:ftpStatus'][0] not in ["Secure", "Disabled"]:
             gtfo(1, 'WARN: FTP is not secure')
 
-        if response['SOAP-ENV:Body'][0]['ns1:ServerSummaryStatusResponse'][0]['ns1:result'][0]['ns2:sftpStatus'][0] != "Secure":
+        if response['SOAP-ENV:Body'][0]['ns1:ServerSummaryStatusResponse'][0]['ns1:result'][0]['ns2:sftpStatus'][0] not in ["Secure", "Disabled"]:
             gtfo(1, 'WARN: SFTP is not secure')
 
         gtfo(0, 'OK: Everything OK')
